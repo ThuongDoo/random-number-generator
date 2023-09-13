@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Random Number Generator</h1>
+
+    <form id="randomNumberForm">
+      <label for="start">Số đầu:</label>
+      <input type="number" id="start" name="start" required />
+      <br />
+
+      <label for="end">Số cuối:</label>
+      <input type="number" id="end" name="end" required />
+      <br />
+
+      <label for="count">Số lượng số ngẫu nhiên:</label>
+      <input type="number" id="count" name="count" required />
+      <br />
+
+      <button type="button" id="generateButton">Tạo số ngẫu nhiên</button>
+    </form>
+
+    <h2>Kết quả:</h2>
+    <ul id="resultList"></ul>
+
+    <script>
+      function getRandomNumbers(start, end, count) {
+        const numbers = [];
+        for (let i = start; i <= end; i++) {
+          numbers.push(i);
+        }
+
+        const result = [];
+        for (let i = 0; i < count; i++) {
+          const randomIndex = Math.floor(Math.random() * numbers.length);
+          const randomNumber = numbers.splice(randomIndex, 1)[0];
+          result.push(randomNumber);
+        }
+
+        return result;
+      }
+
+      document
+        .getElementById("generateButton")
+        .addEventListener("click", function () {
+          const start = parseInt(document.getElementById("start").value);
+          const end = parseInt(document.getElementById("end").value);
+          const count = parseInt(document.getElementById("count").value);
+
+          const resultList = document.getElementById("resultList");
+          resultList.innerHTML = ""; // Xóa kết quả trước đó (nếu có).
+
+          if (
+            isNaN(start) ||
+            isNaN(end) ||
+            isNaN(count) ||
+            start >= end ||
+            count <= 0
+          ) {
+            alert("Vui lòng nhập thông số hợp lệ.");
+            return;
+          }
+
+          const randomNumbers = getRandomNumbers(start, end, count);
+          randomNumbers.forEach(function (number) {
+            const listItem = document.createElement("li");
+            listItem.textContent = number;
+            resultList.appendChild(listItem);
+          });
+        });
+    </script>
+  </body>
+</html>
